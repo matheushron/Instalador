@@ -1,0 +1,7 @@
+*/
+!ConsoleApp1.Installer/
+!ConsoleApp1/
+*.htm
+*.html
+!ConsoleApp1.sln
+

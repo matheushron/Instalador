@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<!--Componentes do produto-->
+		<ComponentGroup Id="ProductComponents" >
+				
+			<!--Shortcut-->
+			<ComponentRef Id="MainAppShortcut" />
+		</ComponentGroup>
+
+		<!--Arquivos instalados -->
+		<DirectoryRef Id = "INSTALLFOLDER" FileSource="..\ConsoleApp1\bin\Debug\net6.0\win-$(var.Platform)\publish\" >
+
+			<Component Id="MainAppShortcut" Guid = "{8BE273DD-B3CD-4D05-A9AB-2F0053E981D4}">
+
+				<Shortcut Id="MainAppShortcut"
+                  Name="!(loc.ProductName_$(var.Platform))"
+                  Target="[INSTALLFOLDER]ConsoleApp1.exe"
+                  Directory="InstallProgramMenuFolder"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="Icon.ico"
+                  />
+
+
+				<!-- Our unique key for this component/shortcut -->
+				<RegistryValue Id="RegShortcutKey" Root="HKCU" Key="SOFTWARE\$(loc.ProductNameFolder)" Name="Shortcut" Value="1" Type="integer" KeyPath="yes" />
+				
+				<!--<File Id = "FileTestFile" Name = "api-ms-win-core-console-l1-1-0.dll" KeyPath="yes"/>-->
+				
+				<!--Remove intens do menu inicial-->
+			<RemoveFolder Id = "RemoveStartMenu" Directory = "InstallProgramMenuFolder" On = "uninstall"/>
+			
+			</Component>
+		
+		</DirectoryRef>
+
+	</Fragment>
+
+</Wix>
+
+
+
+
+
