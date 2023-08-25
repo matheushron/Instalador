@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<!-- Give product a unique ID per platform -->
+	<?if $(var.Platform)=x64 ?>
+	<!--setar um novo GUID toda vez que o exe for atualizado-->
+	<?define ProductCode = "{F4E40A90-353D-41E6-8AF0-5B2CEBF9DD5E}" ?>
+	<?else?>
+	<?define ProductCode = "{5BC1710A-0739-4C01-8B44-E794FE3CBAAA}" ?>
+	<?endif?>
+
+	<!-- Fixed upgrade Id -->
+	<?define UpgradeCode = "{C021124D-F898-4060-A0B2-4C0F20E2F664}" ?>
+
+	
+	<!-- Define main product -->
+	<Product Id="$(var.ProductCode)"
+           Name="!(loc.ProductName_$(var.Platform))"
+           Language="!(loc.Language)"
+           Version="$(var.BuildVersion)"
+           Manufacturer="!(loc.Company)"
+           UpgradeCode="$(var.UpgradeCode)">
+
+		<!-- Provide package details -->
+		<Package InstallerVersion="200"
+             Compressed="yes"
+             InstallScope="perMachine"
+             Platform="$(var.Platform)"
+             Manufacturer="!(loc.Company)"
+             Description="!(loc.Description)"
+             Keywords="!(loc.Keywords)"
+             Comments="!(loc.Comments)"
+             Languages="!(loc.Language)"
+             />
+
+		<!-- Downgrade error message -->
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
+
+		<!-- Include .cab file into .msi file (faz com que tenha um zip) -->
+		<MediaTemplate
+			EmbedCab="yes"  
+			/>
+
+			<!-- Define main app icon -->
+		<Icon Id="Icon.ico" SourceFile="C:\Users\Matheus\source\repos\ConsoleApp1\ConsoleApp1\Jinx.ico" />
+
+		<!-- Use the icon.ico icon for this installer (shows up in Add/Remove programs) -->
+		<Property Id="ARPPRODUCTICON">icon.ico</Property>
+		
+		<!-- Help/Support website (shows in the Add/Remove programs) -->
+		<Property Id="ARPURLINFOABOUT">https://www.davidpintoconsultoria.com.br</Property>
+
+		<!-- Create a basic UI for the installer-->
+		<UIRef Id="WixUI_Minimal"/> 
+	
+	    <!-- Define uma imagem para o instalador caso a imagem padrão já venha com a referencia "WixUIExtension"-->
+		<WixVariable Id = "WixUIDialogBmp" Value="$(var.ProjectDir)\Assets\Background.bmp"/>
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\Assets\License.rtf" />
+		<WixVariable Id = "WixUIBannerBmp" Value="$(var.ProjectDir)\Assets\Banner.bmp"/>
+
+		<!-- Define components, shortcuts, files etc... for installer -->
+		<Feature Id="ProductFeature" Title="ConsoleApp" Level="1">
+
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="PublishedComponents" /> 
+
+		</Feature>
+
+	
+	</Product>
+
+</Wix>
